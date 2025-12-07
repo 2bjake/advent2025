@@ -2,7 +2,6 @@ import Algorithms
 import AdventUtilities
 import RegexBuilder
 
-//typealias Operator = (Int, Int) -> Int
 typealias Reducer = ([Int]) -> Int
 
 func makeReducer<S: StringProtocol>(_ opString: S) -> Reducer {
@@ -25,13 +24,10 @@ func parsePartOneInput(_ src: String) -> ([[Int]], [Reducer]) {
 
 public func partOne() {
   let (numbers, reducers)  = parsePartOneInput(input)
-
-  var result = 0
-  for i in 0..<numbers.numberOfColumns {
-    let value = reducers[i](numbers.column(at: i))
-    result += value
+  let answer = (0..<numbers.numberOfColumns).reduce(0) { result, idx in
+    result + reducers[idx](numbers.column(at: idx))
   }
-  print(result) // 6209956042374
+  print(answer) // 6209956042374
 }
 
 func parsePartTwoInput(_ src: String) -> [([Int], Reducer)] {
@@ -54,7 +50,6 @@ func parsePartTwoInput(_ src: String) -> [([Int], Reducer)] {
 
 public func partTwo() {
   let parsed = parsePartTwoInput(input)
-  
   var result = 0
   for (numbers, reducer) in parsed {
     result += reducer(numbers)
